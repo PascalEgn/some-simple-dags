@@ -1,0 +1,35 @@
+from airflow import DAG
+from airflow.operators.python import PythonOperator
+from datetime import datetime
+import logging
+
+def log_message(task_name):
+    now = datetime.utcnow().isoformat()
+    logging.info(f"[{task_name}] Log generated at: {now}")
+    logging.warning(f"[{task_name}] Warning event at: {now}")
+    logging.error(f"[{task_name}] Error event at: {now}")
+
+with DAG(
+    dag_id="test_logging_dag",
+    description="Simple DAG for testing logs sent to Elasticsearch",
+    schedule_interval="*/5 * * * *",
+    catchup=False,
+    tags=["test", "logging"],
+) as dag:
+
+    task_a = PythonOperator(
+        task_id="log_task_a",
+        python_callable=lambda: log_message("Task A"),
+    )
+
+    task_b = PythonOperator(
+        task_id="log_task_b",
+        python_callable=lambda: log_message("Task B"),
+    )
+
+    task_c = PythonOperator(
+        task_id="log_task_c",
+        python_callable=lambda: log_message("Task C"),
+    )
+
+    task_a >> task_b >> task_c
