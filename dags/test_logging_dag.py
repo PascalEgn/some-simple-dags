@@ -12,7 +12,7 @@ def log_message(task_name):
 with DAG(
     dag_id="test_logging_dag",
     description="Simple DAG for testing logs sent to Elasticsearch",
-    schedule_interval="*/5 * * * *",
+    schedule="*/5 * * * *",
     catchup=False,
     tags=["test", "logging"],
 ) as dag:
