@@ -5,7 +5,6 @@ import shutil
 
 from airflow.sdk import dag, task
 from airflow.sdk.definitions.param import Param
-from include.utils.alerts import FailedDagNotifier
 
 logger = logging.getLogger(__name__)
 
@@ -18,8 +17,7 @@ logger = logging.getLogger(__name__)
         "retention_hours": Param(
             96, type="integer", description="Log retention period in hours"
         ),
-    },
-    on_failure_callback=FailedDagNotifier(),
+    }
 )
 def cleanup_logs():
     @task
