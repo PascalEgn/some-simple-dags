@@ -1,3 +1,4 @@
+import shutil
 import datetime
 import logging
 import os
@@ -51,7 +52,9 @@ def cleanup_logs():
                                 shutil.rmtree(run_path)
                             except Exception as e:
                                 logger.error(f"Failed to delete {run_path}: {e}")
-
+            if not os.listdir(dag_path):
+                logger.info(f"Deleting empty log directory: {dag_path}")
+                shutil.rmtree(dag_path)
     find_and_cleanup_logs()
 
 
