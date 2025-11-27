@@ -11,6 +11,8 @@ def log_message(task_name):
     logger.warning(f"[{task_name}] Warning event at: {now}")
     logger.error(f"[{task_name}] Error event at: {now}")
     for handler in logger.handlers:
+        print("A")
+        print(handler)
         if hasattr(handler, "set_context"):
             handler.set_context(task_instance)
 
