@@ -5,15 +5,14 @@ import logging
 
 logger = logging.getLogger("airflow.task")
 
-for handler in logger.handlers:
-    if hasattr(handler, "set_context"):
-        handler.set_context(task_instance)
-
 def log_message(task_name):
     now = datetime.utcnow().isoformat()
     logger.info(f"[{task_name}] Log generated at: {now}")
     logger.warning(f"[{task_name}] Warning event at: {now}")
     logger.error(f"[{task_name}] Error event at: {now}")
+    for handler in logger.handlers:
+        if hasattr(handler, "set_context"):
+            handler.set_context(task_instance)
 
 with DAG(
     dag_id="test_logging_dag",
