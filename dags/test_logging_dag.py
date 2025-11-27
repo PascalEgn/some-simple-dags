@@ -3,7 +3,11 @@ from airflow.operators.python import PythonOperator
 from datetime import datetime
 import logging
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("airflow.task")
+
+for handler in logger.handlers:
+    if hasattr(handler, "set_context"):
+        handler.set_context(task_instance)
 
 def log_message(task_name):
     now = datetime.utcnow().isoformat()
