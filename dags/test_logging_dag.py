@@ -3,6 +3,8 @@ from airflow.operators.python import PythonOperator
 from datetime import datetime
 import logging
 
+logging.getLogger("airflow.task")
+
 def log_message(task_name):
     now = datetime.utcnow().isoformat()
     logging.info(f"[{task_name}] Log generated at: {now}")

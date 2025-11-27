@@ -7,7 +7,7 @@ import shutil
 from airflow.sdk import dag, task
 from airflow.sdk.definitions.param import Param
 
-logger = logging.getLogger(__name__)
+logging.getLogger("airflow.task")
 
 
 @dag(
