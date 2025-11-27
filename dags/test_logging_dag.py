@@ -3,13 +3,13 @@ from airflow.operators.python import PythonOperator
 from datetime import datetime
 import logging
 
-logging.getLogger("airflow.task")
+logger = logging.getLogger(__name__)
 
 def log_message(task_name):
     now = datetime.utcnow().isoformat()
-    logging.info(f"[{task_name}] Log generated at: {now}")
-    logging.warning(f"[{task_name}] Warning event at: {now}")
-    logging.error(f"[{task_name}] Error event at: {now}")
+    logger.info(f"[{task_name}] Log generated at: {now}")
+    logger.warning(f"[{task_name}] Warning event at: {now}")
+    logger.error(f"[{task_name}] Error event at: {now}")
 
 with DAG(
     dag_id="test_logging_dag",
