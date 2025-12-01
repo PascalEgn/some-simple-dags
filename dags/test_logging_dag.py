@@ -11,6 +11,7 @@ def log_message(task_name):
     logger.info(f"[{task_name}] Log generated at: {now}")
     logger.warning(f"[{task_name}] Warning event at: {now}")
     logger.error(f"[{task_name}] Error event at: {now}")
+    self.log.info("This is a test log message")
     print(logger)
     print(logger.handlers)
 
