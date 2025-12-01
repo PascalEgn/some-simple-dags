@@ -2,17 +2,14 @@ from airflow import DAG
 from airflow.operators.python import PythonOperator
 from datetime import datetime
 import logging
+logger = logging.getLogger("airflow.task")
 
 
 def log_message(task_name):
-    logger = logging.getLogger("airflow.task")
-
     now = datetime.utcnow().isoformat()
     logger.info(f"[{task_name}] Log generated at: {now}")
     logger.warning(f"[{task_name}] Warning event at: {now}")
     logger.error(f"[{task_name}] Error event at: {now}")
-    print(logger)
-    print(logger.handlers)
 
 with DAG(
     dag_id="test_logging_dag",
