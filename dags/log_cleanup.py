@@ -11,12 +11,12 @@ logger = logging.getLogger("airflow.task")
 
 
 @dag(
-    schedule="0 */12 * * *",
+    schedule="0 0 */1 * *",
     catchup=False,
     tags=["service", "log_cleanup"],
     params={
-        "retention_hours": Param(
-            96, type="integer", description="Log retention period in hours"
+        "retention_days": Param(
+            14, type="integer", description="Log retention period in days"
         ),
     }
 )
@@ -25,12 +25,12 @@ def cleanup_logs():
     def find_and_cleanup_logs(**context):
         airflow_home = os.getenv("AIRFLOW_HOME", "/opt/airflow")
         logs_dir = os.path.join(airflow_home, "logs")
-        retention_hours = context["params"].get("retention_hours")
+        retention_days = context["params"].get("retention_days")
         logger.info(
-            f"Cleaning up logs older than {retention_hours} hours in {logs_dir}"
+            f"Cleaning up logs older than {retention_days} days in {logs_dir}"
         )
         cutoff_time = datetime.datetime.now(datetime.UTC) - datetime.timedelta(
-            hours=retention_hours
+            days=retention_days
         )
 
         if not os.path.exists(logs_dir):
